@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
+use XMLParser\XMLParser;
+
 class CityController extends Controller
 {
     
@@ -13,7 +15,7 @@ class CityController extends Controller
     {
         $apiKey = env('OPEN_WEATHER_API_KEY');
 
-        $url = "https://api.openweathermap.org/data/2.5/weather?q=$city&appid=$apiKey&mode=xml";
+        $url = "https://api.openweathermap.org/data/2.5/weather?q=$city&appid=$apiKey";
 
             try{                
         $response = Http::get($url);
@@ -37,9 +39,13 @@ class CityController extends Controller
         }
 
         // It also allows to throw exceptions on the $response
-        //If there's no error then the display return response
-        return response($response->body(), 200)
+        //If there's no error then display return response
+         $data = $response->object();
+        $xml = XMLParser::encode( $data , 'response' );
+        return response($xml->asXML(), 200)
             ->header('Content-Type', 'text/xml');
+       
+    //   dd($xml->asXML());
         
     }
     catch(\Exception $e) {

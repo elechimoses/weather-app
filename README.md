@@ -9,7 +9,8 @@
 ## Routes
 
 `http://127.0.0.1:8000/` to find a city
-`http://127.0.0.1:8000/city/{cityname}` to fetch city date with xml response. e.g /city/lagos
+
+`http://127.0.0.1:8000/city/{cityname}` to fetch city data with xml response. e.g /city/lagos
 
 ## License
 
